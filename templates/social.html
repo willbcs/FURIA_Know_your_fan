@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FURIA | Redes Sociais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --furia-orange: #FF5C00;
+            --furia-black: #000000;
+            --furia-white: #FFFFFF;
+            --furia-gray: #2A2A2A;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('/static/graffiti1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--furia-white);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .container {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(255, 92, 0, 0.5);
+            border: 1px solid var(--furia-orange);
+            max-height: 95vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--furia-orange) var(--furia-gray);
+            margin: 1rem;
+            backdrop-filter: blur(2px);
+        }
+        
+        .container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .container::-webkit-scrollbar-track {
+            background: var(--furia-gray);
+        }
+        
+        .container::-webkit-scrollbar-thumb {
+            background-color: var(--furia-orange);
+            border-radius: 4px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo img {
+            max-width: 350px;
+            height: auto;
+        }
+        
+        h1 {
+            color: var(--furia-orange);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        
+        .input-with-icon {
+            position: relative;
+            width: 100%;
+        }
+        
+        .input-with-icon input {
+            width: 100%;
+            padding: 0.8rem 0.8rem 0.8rem 40px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--furia-white);
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: var(--furia-orange);
+            box-shadow: 0 0 5px rgba(255, 92, 0, 0.5);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .social-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--furia-orange);
+            font-size: 1rem;
+        }
+        
+        .optional {
+            font-size: 0.8rem;
+            color: #aaa;
+            font-weight: normal;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--furia-orange);
+            color: var(--furia-white);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary:hover {
+            background-color: #e05200;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .progress-bar:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--furia-gray);
+            z-index: -1;
+        }
+        
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--furia-gray);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        .progress-step.active {
+            background-color: var(--furia-orange);
+            box-shadow: 0 0 0 3px rgba(255, 92, 0, 0.3);
+        }
+        
+        .btn-discord {
+            background-color: #4c5dcb;
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 92%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .btn-google {
+            background-color: #FFFFFF;
+            color: #000000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 92%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .btn-discord:hover {
+            background-color: #1528f0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-google:hover {
+            background-color: #616161;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .discord-connected, .google-connected {
+            background-color: var(--furia-gray);
+            color: var(--furia-orange);
+        }
+
+        .discord-connected:hover, .google-connected:hover {
+            background-color: #333;
+        }
+
+        .auth-container {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-status {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            color: var(--furia-orange);
+            display: none;
+        }
+        .btn-steam {
+            background-color: #1d2e4a;
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 92%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .btn-steam:hover {
+            background-color: #001530;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .steam-connected {
+            background-color: var(--furia-gray);
+            color: var(--furia-orange);
+        }
+
+        .steam-connected:hover {
+            background-color: #333;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll;
+                background-size: cover;
+                width: 95%;
+                padding: 1.5rem;
+            }
+            
+            .overlay {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+            
+            .container {
+                max-width: 100%;
+                margin: 0 auto;
+                background-color: rgba(0, 0, 0, 0.75);
+                backdrop-filter: none;
+            }        
+            
+            .auth-container {
+                padding-right: 1.5rem; 
+            }
+            .auth-container label {
+                padding-left: 70px;  /* Ajuste este valor conforme necessário */
+                text-align: left;    /* Mantém o alinhamento à esquerda do texto */
+                margin-left: 10px;   /* Adiciona um espaço à esquerda */
+                width: calc(100% - 20px); /* Garante que não vaze do container */
+            }
+
+        }
+        
+        @media (max-width: 480px) {
+            .logo img {
+                max-width: 300px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="logo">
+            <img src="/static/furia-logo.png" alt="FURIA Logo">
+        </div>
+        <h1>Conecta com a gente!</h1>
+
+        <div class="progress-bar">
+            <div class="progress-step">1</div>
+            <div class="progress-step">2</div>
+            <div class="progress-step active">3</div>
+            <div class="progress-step">4</div>
+            <div class="progress-step">5</div>
+        </div>
+
+        <form method="POST" id="socialForm">
+            <!-- Seção de autenticação -->
+            <div class="auth-container">
+                <label>Vincular suas contas</label>
+                <a href="/login/discord" class="btn-discord">
+                    <i class="fab fa-discord"></i> Conectar com Discord
+                </a>
+                <a href="/login/google" class="btn-google">
+                    <i class="fab fa-google"></i> Conectar com Google
+                </a>
+                <a href="/login/steam" class="btn-steam">
+                    <i class="fab fa-steam"></i> Conectar com Steam
+                </a>
+                <div id="steamStatus" class="auth-status">
+                    <i class="fas fa-check-circle"></i> Steam vinculado!
+                </div>
+                
+                <div id="discordStatus" class="auth-status">
+                    <i class="fas fa-check-circle"></i> Discord vinculado!
+                </div>
+                <div id="googleStatus" class="auth-status">
+                    <i class="fas fa-check-circle"></i> Google vinculado!
+                </div>
+                <div id="steamStatus" class="auth-status">
+                    <i class="fas fa-check-circle"></i> Steam vinculado!
+                </div>
+            </div>
+        
+            <!-- Redes sociais (opcionais) -->
+            <div class="form-group">
+                <label>Twitter / X <span class="optional">(opcional)</span></label>
+                <div class="input-with-icon">
+                    <i class="fab fa-twitter social-icon"></i>
+                    <input type="text" name="twitter" placeholder="@seu_usuario">
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label>Instagram <span class="optional">(opcional)</span></label>
+                <div class="input-with-icon">
+                    <i class="fab fa-instagram social-icon"></i>
+                    <input type="text" name="instagram" placeholder="@seu_usuario">
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label>Twitch <span class="optional">(opcional)</span></label>
+                <div class="input-with-icon">
+                    <i class="fab fa-twitch social-icon"></i>
+                    <input type="text" name="twitch" placeholder="seu_canal">
+                </div>
+            </div>
+        
+            <div class="btn-container">
+                <button type="submit" class="btn-primary">
+                    Próximo <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                </button>
+            </div>
+        </form>
+
+    <!-- Flash messages como JSON -->
+    <script id="flash-data" type="application/json">
+        {{ get_flashed_messages(with_categories=true) | tojson }}
+    </script>
+
+    <script>
+        window.onload = function () {
+            const raw = document.getElementById("flash-data").textContent;
+            const flashMessages = JSON.parse(raw);
+
+            flashMessages.forEach(([category, message]) => {
+                if (category === 'error') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: message,
+                        confirmButtonColor: '#FF5C00',
+                        background: '#1e1e1e',
+                        color: '#fff'
+                    });
+                } else if (category === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: message,
+                        confirmButtonColor: '#FF5C00',
+                        background: '#1e1e1e',
+                        color: '#fff'
+                    });
+                    
+                    // Mostra status de conexão se for sucesso de vinculação
+                    if (message.includes('Google')) {
+                        document.getElementById('googleStatus').style.display = 'block';
+                        document.querySelector('.btn-google').classList.add('google-connected');
+                    } 
+                    else if (message.includes('Discord')) {
+                        document.getElementById('discordStatus').style.display = 'block';
+                        document.querySelector('.btn-discord').classList.add('discord-connected');
+                    }
+                    else if (message.includes('Steam')) {
+                        document.getElementById('steamStatus').style.display = 'block';
+                        document.querySelector('.btn-steam').classList.add('steam-connected');
+                    }
+                }
+            });
+        };
+
+        window.addEventListener('beforeunload', function(e) {
+            if (document.getElementById('socialForm').checkValidity() === false) {
+                e.preventDefault();
+                e.returnValue = 'Você tem informações não salvas. Tem certeza que deseja sair?';
+            }
+        });
+    </script>
+</body>
+</html>

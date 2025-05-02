@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FURIA | Links de eSports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --furia-orange: #ff5c00;
+            --furia-black: #000000;
+            --furia-white: #ffffff;
+            --furia-gray: #2a2a2a;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background: url('/static/graffiti1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--furia-white);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+            z-index: -1;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 2rem;
+            padding-right: 4rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(255, 92, 0, 0.5);
+            border: 1px solid var(--furia-orange);
+            max-height: 95vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--furia-orange) var(--furia-gray);
+            margin: 1rem;
+            backdrop-filter: blur(2px);
+        }
+
+        .container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .container::-webkit-scrollbar-track {
+            background: var(--furia-gray);
+        }
+        
+        .container::-webkit-scrollbar-thumb {
+            background-color: var(--furia-orange);
+            border-radius: 4px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo img {
+            max-width: 350px;
+            height: auto;
+        }
+        h1 {
+            color: var(--furia-orange);
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .progress-bar:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--furia-gray);
+            z-index: -1;
+        }
+
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--furia-gray);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .progress-step.active {
+            background-color: var(--furia-orange);
+        }
+
+        .info-text {
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--furia-white);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--furia-orange);
+            box-shadow: 0 0 5px rgba(255, 92, 0, 0.5);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background-color: var(--furia-orange);
+            color: var(--furia-white);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: #e05200;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding-right: 3rem;
+                max-width: 400px; 
+            }
+
+            .logo img {
+                max-width: 250px;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+            }
+
+            input {
+                padding: 0.7rem;
+                font-size: 0.9rem;
+            }
+        
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="logo">
+            <img src="/static/furia-logo.png" alt="FURIA Logo" />
+        </div>
+
+        <h1>QUAIS SEUS CANAIS DE NOTÍCIAS?</h1>
+
+        <div class="progress-bar">
+            <div class="progress-step">1</div>
+            <div class="progress-step">2</div>
+            <div class="progress-step">3</div>
+            <div class="progress-step active">4</div>
+            <div class="progress-step">5</div>
+        </div>
+
+        <p class="info-text">
+            Compartilha com a gente os links de onde você costuma acompanhar informações e novidades sobre eSports! (ex: perfis em sites, redes específicas, etc)
+        </p>
+
+        <form method="POST" id="linksForm">
+            <div class="form-group">
+                <input type="text" name="links" placeholder="https://exemplo1.com" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="links" placeholder="https://exemplo2.com" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="links" placeholder="https://exemplo3.com" />
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn-primary">
+                    Finalizar Cadastro <i class="fas fa-check" style="margin-left: 8px;"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script id="flash-data" type="application/json">
+        {{ get_flashed_messages(with_categories=true) | tojson }}
+    </script>
+
+    <script>
+        window.onload = function () {
+            const raw = document.getElementById("flash-data").textContent;
+            const flashMessages = JSON.parse(raw);
+
+            flashMessages.forEach(([category, message]) => {
+                if (category === 'error') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: message,
+                        confirmButtonColor: '#FF5C00',
+                        background: '#1e1e1e',
+                        color: '#fff'
+                    });
+                }
+            });
+        };
+
+        window.addEventListener("beforeunload", function (e) {
+            if (document.getElementById("linksForm").checkValidity() === false) {
+                e.preventDefault();
+                e.returnValue = "Você tem informações não salvas. Tem certeza que deseja sair?";
+            }
+        });
+    </script>
+</body>
+</html>
