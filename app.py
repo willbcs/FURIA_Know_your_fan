@@ -115,69 +115,94 @@ def validate_document(extracted_text, fan_data):
     return nome_encontrado and (cpf_encontrado or rg_encontrado)
 
 def get_recommendations(fan_data):
-    """Gera recomendações baseadas nos interesses do fã"""
+    """Gera recomendações personalizadas baseadas nos interesses do fã"""
     recommendations = {
-        'csgo': [
+        # eSports
+        'cs': [
             {'title': 'Notícias - FURIA CS', 'url': 'https://themove.gg/esports/cs'},
             {'title': 'Próximos Torneios - CS', 'url': 'https://draft5.gg/equipe/330-FURIA/campeonatos'}
         ],
         'valorant': [
-            {'title': 'Valorant - Site Oficial', 'url': 'https://playvalorant.com/pt-br/?gad_source=1&gad_campaignid=10161918620&gbraid=0AAAAADidvFxzNz1Hof53LfsLSvC3dUN5G&gclid=Cj0KCQjw2tHABhCiARIsANZzDWoyuHLRJnMMJtTHpWqUNiDs7uobzLN-ft0zHr5P5kVPtgRBfaPfe5QaAts3EALw_wcB&gclsrc=aw.ds'},
-            {'title': 'Notícias - FURIA Valorant', 'url': 'https://valorantzone.gg/campeonatos-em-andamento/'},
-            {'title': 'Campeonatos de Valorant', 'url': 'https://valorantzone.gg/campeonatos-em-andamento/'}
+            {'title': 'Valorant - Site Oficial', 'url': 'https://playvalorant.com/pt-br/'},
+            {'title': 'Notícias - FURIA Valorant', 'url': 'https://valorantzone.gg/campeonatos-em-andamento/'}
         ],
         'lol': [
             {'title': 'Notícias - FURIA LOL', 'url': 'https://themove.gg/esports/lol'},
             {'title': 'Torneios - LOL', 'url': 'https://pt.egamersworld.com/lol/events'}
         ],
-        'pugb': [{'title': 'Notícias - FURIA PUGB', 'url': 'https://themove.gg/esports/pubg'},
+        'pubg': [
+            {'title': 'Notícias - FURIA PUBG', 'url': 'https://themove.gg/esports/pubg'},
             {'title': 'Site Oficial - PUBG', 'url': 'https://pubg.com/pt-br/main'}
         ],
-        'rocket': [{'title': 'Notícias - FURIA Rocket League', 'url': 'https://themove.gg/esports/rocket-league'},
+        'rocket': [
+            {'title': 'Notícias - FURIA Rocket League', 'url': 'https://themove.gg/esports/rocket-league'},
             {'title': 'Site Oficial - Rocket League', 'url': 'https://www.rocketleague.com/pt-br'}
         ],
-        'roupas': [{'title': 'Produtos licenciados FURIA', 'url': 'https://www.furia.gg/produtos'},
+        # Produtos
+        'roupas': [
+            {'title': 'Produtos licenciados FURIA', 'url': 'https://www.furia.gg/produtos'},
             {'title': 'Outlet Oficial', 'url': 'https://www.furia.gg/outlet'}
         ],
-        'assistindo': [{'title': 'Assista com os melhores da Twitch', 'url': 'https://www.twitch.tv/furiatv'}
+        'acessorios': [
+            {'title': 'Coleção FURIA', 'url': 'https://www.furia.gg/colecao'},
+            {'title': 'Acessórios Exclusivos', 'url': 'https://www.furia.gg/acessorios'}
+        ],
+        # Conteúdo
+        'streaming': [
+            {'title': 'FURIA na Twitch', 'url': 'https://www.twitch.tv/furiatv'},
+            {'title': 'Canais de Esports', 'url': 'https://www.twitch.tv/directory/game/Esports'}
         ]
     }
     
-    # Filtra recomendações baseadas nos esports selecionados
     selected_recommendations = []
-    for esport in fan_data['esports']:
-        esport_lower = esport.lower()
-        if 'cs' in esport_lower or 'counter' in esport_lower:
-            selected_recommendations.extend(recommendations['csgo'])
-        elif 'val' in esport_lower:
-            selected_recommendations.extend(recommendations['valorant'])
-        elif 'league' in esport_lower or 'lol' in esport_lower:
-            selected_recommendations.extend(recommendations['lol'])
-        elif 'pugb' in esport_lower:
-            selected_recommendations.extend(recommendations['pugb'])
-        elif 'rocket' in esport_lower:
-            selected_recommendations.extend(recommendations['rocket'])
-        elif 'roupas' in esport_lower or 'acessórios' in esport_lower:
-            selected_recommendations.extend(recommendations['roupas'])
-        elif 'assistindo' in esport_lower or 'stream' in esport_lower:
-            selected_recommendations.extend(recommendations['assistindo'])
     
-    # Adiciona recomendações gerais se não houver muitas específicas
+    # 1. Análise de eSports (jogos)
+    for esport in fan_data.get('esports', []):
+        esport_lower = esport.lower()
+        
+        if any(term in esport_lower for term in ['cs', 'counter', 'cs:go', 'cs2']):
+            selected_recommendations.extend(recommendations['cs'])
+        elif any(term in esport_lower for term in ['valora', 'vlr']):
+            selected_recommendations.extend(recommendations['valorant'])
+        elif any(term in esport_lower for term in ['lol', 'league', 'league of legends']):
+            selected_recommendations.extend(recommendations['lol'])
+        elif any(term in esport_lower for term in ['pubg', 'playerunknown']):
+            selected_recommendations.extend(recommendations['pubg'])
+        elif any(term in esport_lower for term in ['rocket', 'rl ', 'rocket league']):
+            selected_recommendations.extend(recommendations['rocket'])
+    
+    # 2. Análise de compras (produtos físicos)
+    for compra in fan_data.get('compras', []):
+        compra_lower = compra.lower()
+        
+        if any(term in compra_lower for term in ['roupa', 'vestuário', 'camiseta', 'moletom']):
+            selected_recommendations.extend(recommendations['roupas'])
+        elif any(term in compra_lower for term in ['acessório', 'boné', 'mochila', 'colecionável']):
+            selected_recommendations.extend(recommendations['acessorios'])
+    
+    # 3. Análise de atividades (hábitos)
+    for atividade in fan_data.get('atividades', []):
+        atividade_lower = atividade.lower()
+        if any(term in atividade_lower for term in ['assistir', 'stream', 'live']):
+            selected_recommendations.extend(recommendations['streaming'])
+    
+    # Recomendações padrão (fallback)
     if len(selected_recommendations) < 3:
         selected_recommendations.extend([
-            {'title': 'Loja FURIA', 'url': 'https://www.furia.gg/loja'},
-            {'title': 'FURIA TV', 'url': 'https://www.furia.gg/tv'}
+            {'title': 'Loja Oficial FURIA', 'url': 'https://www.furia.gg/loja'},
+            {'title': 'FURIA TV', 'url': 'https://www.furia.gg/tv'},
+            {'title': 'Blog de Esports', 'url': 'https://www.furia.gg/news'}
         ])
     
-    seen = set()
-    unique_recommendations = []
+    # Remove duplicatas mantendo a ordem
+    seen_urls = set()
+    final_recommendations = []
     for rec in selected_recommendations:
-        identifier = (rec['title'], rec['url'])
-        if identifier not in seen:
-            seen.add(identifier)
-            unique_recommendations.append(rec)
+        if rec['url'] not in seen_urls:
+            seen_urls.add(rec['url'])
+            final_recommendations.append(rec)
     
-    return unique_recommendations
+    return final_recommendations
 
 def send_welcome_email(email, fan_data):
     """Envia e-mail de boas-vindas com recomendações personalizadas"""
@@ -478,6 +503,11 @@ def success():
         except Exception as e:
             print(f"Erro ao obter dados extras do Google: {str(e)}")
 
+    # Garantir que os dados das plataformas tenham estrutura consistente, mesmo quando não vinculados
+    discord_data = session.get('discord_data', {})
+    google_data = session.get('google_data', {})
+    steam_data = session.get('steam_data', {})
+
     fan_data = {
         'nome': session['fan_data']['nome'],
         'cpf': session['fan_data']['cpf'],
@@ -500,11 +530,11 @@ def success():
         'links_esports': session['links_data'],
         'cadastro_em': datetime.now().isoformat(),
         'google_data': {
-            **session.get('google_data', {}),
+            **google_data,
             **google_extras
         },
-        'discord_data': session.get('discord_data'),
-        'steam_data': session.get('steam_data')
+        'discord_data': discord_data,
+        'steam_data': steam_data
     }
 
     # Envia e-mails para todos os e-mails únicos encontrados
@@ -515,12 +545,12 @@ def success():
         emails_to_send.add(fan_data['email'])
     
     # E-mail do Google
-    if fan_data.get('google_data', {}).get('user', {}).get('email'):
-        emails_to_send.add(fan_data['google_data']['user']['email'])
+    if google_data.get('user', {}).get('email'):
+        emails_to_send.add(google_data['user']['email'])
     
     # E-mail do Discord
-    if fan_data.get('discord_data', {}).get('user', {}).get('email'):
-        emails_to_send.add(fan_data['discord_data']['user']['email'])
+    if discord_data.get('user', {}).get('email'):
+        emails_to_send.add(discord_data['user']['email'])
     
     # Envia e-mail para cada e-mail único
     for email in emails_to_send:
