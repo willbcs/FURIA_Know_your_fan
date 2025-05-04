@@ -149,8 +149,7 @@ def get_recommendations(fan_data):
         ],
         # Conteúdo
         'streaming': [
-            {'title': 'FURIA na Twitch', 'url': 'https://www.twitch.tv/furiatv'},
-            {'title': 'Canais de Esports', 'url': 'https://www.twitch.tv/directory/game/Esports'}
+            {'title': 'FURIA na Twitch', 'url': 'https://www.twitch.tv/furiatv'}           
         ]
     }
     
