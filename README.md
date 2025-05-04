@@ -50,8 +50,39 @@ python app.py
 O sistema estará disponível em: http://127.0.0.1:5000
 Para dispositivos móveis na mesma rede estará disponível em http://192.168.15.7:5000
 
-📬 Fluxo do Sistema
-1. Cadastro básico → 2. Upload de documento → 3. Conexão social → 4. Links de interesse → 5. Confirmação e envio automático de e-mail
+📬 Fluxo do Sistema Completo
+
+1. Cadastro Básico (Obrigatório)
+- Dados pessoais: Nome completo, CPF (com validação), data de nascimento (idade mínima 12 anos), e-mail válido e endereço
+- Preferências: Seleção de eSports acompanhados, interesses, atividades diárias e hábitos de compra
+- Validação em tempo real com feedback visual
+- Aceite de termos LGPD obrigatório
+
+2. Upload de Documento (Obrigatório)
+- Envio de RG, CNH ou Passaporte (PNG, JPG, JPEG ou PDF)
+- Validação automática dos dados do documento (nome e CPF/RG)
+- OCR com EasyOCR para extração de informações
+- Armazenamento seguro no servidor (pasta uploads)
+
+3. Conexão Social (Mínimo 1 obrigatória)
+- Vinculação de contas via OAuth:
+  • Discord: Coleta dados básicos e verifica participação no servidor da FURIA
+  • Google: Acessa perfil, e-mail e dados adicionais (com permissão)
+  • Steam: Obtém perfil público e lista de jogos mais jogados
+- Redes sociais opcionais: Twitter/X, Instagram, Twitch (com validação de URLs)
+
+4. Links de Interesse (Opcional)
+- Inserção de até 3 links de fontes de notícias sobre eSports
+- Validação automática para garantir que são links relacionados a eSports
+- Armazenados para personalização de conteúdo futuro
+
+5. Confirmação e E-mail
+- Consolidação de todos os dados em um documento no MongoDB
+- Envio automático de e-mail personalizado via SendGrid com:
+  • Recomendações baseadas nos interesses do usuário
+  • Links úteis e conteúdo relevante
+  • Template responsivo com logo da FURIA
+- Redirecionamento para página de sucesso com confirmação
 
 📧 Envio de E-mails
 Disparado automaticamente ao final do cadastro
@@ -119,8 +150,39 @@ The system will be available at:
 http://127.0.0.1:5000 (local)
 http://192.168.15.7:5000 (for mobile devices on the same network)
 
-📬 System Flow
-1. Basic registration → 2. Document upload → 3. Social connection → 4. Interest links → 5. Confirmation and automatic email delivery
+📬 Complete System Flow
+
+1. Basic Registration (Mandatory)
+- Personal data: Full name, CPF (validated), birth date (minimum age 12), valid email and address
+- Preferences: eSports selection, interests, daily activities and purchase habits
+- Real-time validation with visual feedback
+- LGPD terms acceptance required
+
+2. Document Upload (Mandatory)
+- RG, driver's license or passport upload (PNG, JPG, JPEG or PDF)
+- Automatic document data validation (name and CPF/RG)
+- OCR with EasyOCR for information extraction
+- Secure server storage (uploads folder)
+
+3. Social Connection (Minimum 1 required)
+- Account linking via OAuth:
+  • Discord: Collects basic data and checks FURIA server participation
+  • Google: Accesses profile, email and additional data (with permission)
+  • Steam: Gets public profile and most played games list
+- Optional social networks: Twitter/X, Instagram, Twitch (with URL validation)
+
+4. Interest Links (Optional)
+- Input of up to 3 eSports news sources links
+- Automatic validation to ensure eSports-related links
+- Stored for future content personalization
+
+5. Confirmation and Email
+- Consolidates all data in a MongoDB document
+- Automatic personalized email via SendGrid with:
+  • Recommendations based on user interests
+  • Useful links and relevant content
+  • Responsive template with FURIA logo
+- Redirect to success page with confirmation
 
 📧 Email System
 Triggered automatically upon registration completion
